@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhananjayan R - Senior Python Engineer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Ctext x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-weight='700' font-family='Arial'%3ED%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND CANVAS -->
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">DR</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#work">Work</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="DhananjayanR_Python_SeniorBackendEngineer_4.5Yrs.pdf.pdf" download class="nav-cta">Download CV</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <!-- Floating SVG orbs -->
+            <div class="hero-orb orb-1"></div>
+            <div class="hero-orb orb-2"></div>
+            <div class="hero-orb orb-3"></div>
+
+            <div class="hero-inner">
+                <img src="hoto.jpg" alt="Dhananjayan R" class="avatar">
+                <p class="hero-eyebrow">Senior Python Engineer · 4.5+ Years</p>
+
+                <h1 class="hero-name">Dhananjayan R</h1>
+                <p class="hero-tagline">Building systems that<br>think, scale, and endure.</p>
+                <p class="hero-sub">Backend · Performance Engineering · Distributed Systems · ML Ops</p>
+                <div class="hero-actions">
+                    <a href="#work" class="btn-primary">View Work</a>
+                    <a href="DhananjayanR_Python_SeniorBackendEngineer_4.5Yrs.pdf.pdf" download class="btn-ghost">Download Resume</a>
+                    <a href="#contact" class="btn-ghost">Get In Touch</a>
+                </div>
+
+
+
+                <!-- Animated tech orbit ring -->
+                <div class="orbit-ring">
+                    <svg viewBox="0 0 320 320" class="orbit-svg">
+                        <circle cx="160" cy="160" r="140" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1" stroke-dasharray="4 8"/>
+                        <circle cx="160" cy="160" r="100" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="1" stroke-dasharray="2 6"/>
+                        <g class="orbit-dots">
+                            <circle cx="300" cy="160" r="4" fill="#0071e3" opacity="0.7"/>
+                            <circle cx="160" cy="20"  r="3" fill="#1d1d1f" opacity="0.4"/>
+                            <circle cx="20"  cy="160" r="4" fill="#0071e3" opacity="0.5"/>
+                            <circle cx="160" cy="300" r="3" fill="#1d1d1f" opacity="0.3"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="about" id="about">
+            <div class="section-wrap">
+                <p class="section-label">About</p>
+                <h2 class="section-title">Crafting software<br>with purpose.</h2>
+                <div class="about-body">
+                    <p>Backend Engineer with <strong>4.5+ years</strong> building scalable REST APIs and high-throughput processing systems using Python, Flask, and FastAPI. Proven track record optimizing Apache NiFi pipelines and scaling logistics workloads to <strong>~2,600 TPM</strong> under constrained resources.</p>
+                    <p>Extensive hands-on expertise in distributed architectures - RabbitMQ, Redis, PostgreSQL, Docker, Nginx, AWS - with deep focus on performance engineering, queue prioritization, and production observability via Grafana. Currently at <strong>EdgeVerve (Infosys)</strong>.</p>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <span class="stat-num" data-target="4.5">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num" data-target="2600">0</span>
+                        <span class="stat-label">TPM Achieved</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num" data-target="3">0</span>
+                        <span class="stat-label">Companies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num">#2</span>
+                        <span class="stat-label">GENAI Hackathon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section class="experience-section" id="experience">
+            <div class="section-wrap">
+                <p class="section-label">Experience</p>
+                <h2 class="section-title">Where I've worked.</h2>
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">Mar 2025 - Present</span>
+                            <a href="https://www.edgeverve.com/" target="_blank" class="timeline-company">EdgeVerve · Infosys</a>
+                            <span class="timeline-location">Bangalore · Hybrid</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Member of Technical Staff - Product Engineering</h3>
+                            <p>Owned performance optimization for Apache NiFi pipelines supporting logistics EDI workflows. Scaled throughput to <strong>~2,600 TPM</strong> under constrained infrastructure. Built custom Python NiFi ExecuteScript processors enabling complex XML ↔ JSON ↔ EDI transformations. Designed a rule engine for dynamic JSON manipulation based on business requirements - configurable transformations without repeated code changes. Strengthened reliability via Grafana dashboards and automated metrics reporting.</p>
+                            <div class="timeline-tags">
+                                <span>Python</span><span>Apache NiFi</span><span>ExecuteScript</span><span>XML/JSON/EDI</span><span>RabbitMQ</span><span>Redis</span><span>PostgreSQL</span><span>Linux</span><span>AWS</span><span>Grafana</span><span>Kubernetes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">Feb 2023 - Feb 2025</span>
+                            <a href="https://www.tnq.co.in/" target="_blank" class="timeline-company">TNQ Technologies</a>
+                            <span class="timeline-location">Chennai</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Software Developer - Python Backend</h3>
+                            <p>Developed and maintained REST API applications integrating Flask, RabbitMQ, Redis, SQL, Docker, Nginx, and Swagger/OpenAPI. Implemented queue-driven workflows and domain-specific automation improving reliability via async processing. Delivered a phased extraction solution for complex documents (Smart Citation with NER integration): HTML element extraction, pattern matching, and automated XML tag addition. Contributed to ML/NER operationalization using MLflow for MLOps. <strong>2nd Runner-up, GENAI Hackathon</strong> - AI-based smart configuration solution.</p>
+                            <div class="timeline-tags">
+                                <span>Python</span><span>Flask</span><span>REST APIs</span><span>RabbitMQ</span><span>Redis</span><span>SQL</span><span>Docker</span><span>Nginx</span><span>Swagger/OpenAPI</span><span>AJAX</span><span>JavaScript</span><span>MLflow</span><span>NER</span><span>Linux</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">Jun 2021 - Jan 2023</span>
+                            <a href="https://www.genome.com/" target="_blank" class="timeline-company">Genome International</a>
+                            <span class="timeline-location">Chennai</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Junior Software Programmer - Python</h3>
+                            <p>Built backend services and middleware using Python (Flask); supported frontend with JavaScript alongside legacy PHP components. Modernized architecture by migrating services to Flask-based REST middleware. Built data manipulation and reporting pipelines with Pandas; created dynamic dashboards using HTML/CSS and AMCharts. Implemented web scraping pipelines (BeautifulSoup + Selenium) for gene cards and research articles. Applied NLP-based entity detection for biomedical dataset enrichment. Supported deployments via AWS EC2, Linux, and Shell scripting.</p>
+                            <div class="timeline-tags">
+                                <span>Python</span><span>Flask</span><span>JavaScript</span><span>HTML/CSS</span><span>AMCharts</span><span>Pandas</span><span>BeautifulSoup</span><span>Selenium</span><span>AWS EC2</span><span>Linux</span><span>Shell</span><span>PHP</span><span>NLP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-meta">
+                            <span class="timeline-period">Jan 2021 - May 2021</span>
+                            <a href="https://www.genome.com/" target="_blank" class="timeline-company">Genome International</a>
+                            <span class="timeline-location">Chennai</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Software Developer Intern - Python</h3>
+                            <p>Assisted in building backend utilities and automation scripts. Contributed to scraping and data curation tasks under R&D team guidance. Promoted to full-time role after 5 months.</p>
+                            <div class="timeline-tags">
+                                <span>Python</span><span>Automation</span><span>Data Curation</span><span>R&D</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-meta">
+                            <span class="timeline-period"></span>
+                            <a href="https://annamalaiuniversity.ac.in/" target="_blank" class="timeline-company">Annamalai University</a>
+                            <span class="timeline-location">GPA: 8.65 / 10</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>B.E. Mechanical Engineering</h3>
+                            <p>Capstone project: Experimental Studies on Solar Still - designed and executed experiments to optimize solar still efficiency for household water purification, achieving 120 ml per sun hour in 8 sq.ft area.</p>
+                            <div class="timeline-tags">
+                                <span>Engineering</span><span>Research</span><span>Solar Energy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK / PROJECTS -->
+        <section class="work" id="work">
+            <div class="section-wrap">
+                <p class="section-label">Projects</p>
+                <h2 class="section-title">Things I've built.</h2>
+
+                <div class="projects-grid">
+                    <a href="https://github.com/dhananjayan-r/Colorizer" target="_blank" class="project-card project-featured">
+                        <div class="project-card-inner">
+                            <div class="project-icon">🎨</div>
+                            <div class="project-info">
+                                <h3>AI Image Colorizer</h3>
+                                <p>Interactive web app that converts grayscale images into plausible color outputs using an OpenCV-based deep learning pipeline. Packaged as a lightweight Streamlit application with image upload, processing, and preview - focused on user-facing delivery, performance, and stability.</p>
+                                <div class="project-tags">
+                                    <span>Python</span><span>OpenCV</span><span>Streamlit</span><span>Deep Learning</span>
+                                </div>
+                            </div>
+                            <span class="project-arrow">↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/dhananjayan-r/Linkedin_scarper" target="_blank" class="project-card">
+                        <div class="project-card-inner">
+                            <div class="project-icon">🔍</div>
+                            <div class="project-info">
+                                <h3>LinkedIn Job Scraper</h3>
+                                <p>Python automation script to scrape LinkedIn job listings within a selected timeframe. Extracts job description, hiring manager name, company, email, and stores structured data in a database. Modular extraction logic supports evolving page structures.</p>
+                                <div class="project-tags">
+                                    <span>Python</span><span>Selenium WebDriver</span><span>BeautifulSoup</span><span>Database</span>
+                                </div>
+                            </div>
+                            <span class="project-arrow">↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/dhananjayan-r/Swagger-open-api" target="_blank" class="project-card">
+                        <div class="project-card-inner">
+                            <div class="project-icon">📡</div>
+                            <div class="project-info">
+                                <h3>Swagger OpenAPI Template</h3>
+                                <p>Spec-first REST API where endpoints are defined in an OpenAPI (YAML) contract and become runnable with minimal boilerplate. A reusable template to start any OpenAPI & Swagger API project.</p>
+                                <div class="project-tags">
+                                    <span>Python</span><span>OpenAPI/Swagger</span><span>YAML</span><span>Connexion</span>
+                                </div>
+                            </div>
+                            <span class="project-arrow">↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/dhananjayan-r/TNQ-API_TASK" target="_blank" class="project-card">
+                        <div class="project-card-inner">
+                            <div class="project-icon">📊</div>
+                            <div class="project-info">
+                                <h3>Flask API + EDA Toolkit</h3>
+                                <p>Flask API template integrated with Exploratory Data Analysis utilities. Enables rapid prototyping of data-driven endpoints with built-in statistical summaries and visualizations.</p>
+                                <div class="project-tags">
+                                    <span>Flask</span><span>Python</span><span>Pandas</span><span>EDA</span>
+                                </div>
+                            </div>
+                            <span class="project-arrow">↗</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="skills" id="skills">
+            <div class="section-wrap">
+                <p class="section-label">Skills</p>
+                <h2 class="section-title">Tools of the trade.</h2>
+
+                <div class="skills-grid">
+                    <div class="skill-block">
+                        <h3>Backend / API</h3>
+                        <ul>
+                            <li>Python 3</li>
+                            <li>REST APIs · Microservices</li>
+                            <li>Flask · FastAPI</li>
+                            <li>SQLAlchemy / ORM</li>
+                            <li>OpenAPI / Swagger</li>
+                            <li>Postman</li>
+                        </ul>
+                    </div>
+                    <div class="skill-block">
+                        <h3>Distributed Systems</h3>
+                        <ul>
+                            <li>RabbitMQ</li>
+                            <li>Redis · Redis Caching</li>
+                            <li>Apache NiFi (ExecuteScript)</li>
+                            <li>Async / Message-driven arch</li>
+                            <li>Queue prioritization</li>
+                            <li>Rate limiting · Throughput tuning</li>
+                        </ul>
+                    </div>
+                    <div class="skill-block">
+                        <h3>Cloud / DevOps</h3>
+                        <ul>
+                            <li>AWS (S3, EC2)</li>
+                            <li>Docker · Nginx</li>
+                            <li>Linux / Ubuntu</li>
+                            <li>Git / GitHub / GitLab</li>
+                            <li>CI/CD Pipelines</li>
+                            <li>Grafana · Observability</li>
+                        </ul>
+                    </div>
+                    <div class="skill-block">
+                        <h3>Databases</h3>
+                        <ul>
+                            <li>PostgreSQL · MySQL · SQL</li>
+                            <li>Redis</li>
+                            <li>CouchDB</li>
+                            <li>PgBouncer (connection pooling)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-block">
+                        <h3>Data / ML / NLP</h3>
+                        <ul>
+                            <li>Pandas · NumPy</li>
+                            <li>OpenCV · OCR (Tesseract)</li>
+                            <li>MLflow · MLOps</li>
+                            <li>spaCy · SciSpacy (NER)</li>
+                            <li>Hugging Face · LangChain</li>
+                            <li>NLTK · SERRANT</li>
+                        </ul>
+                    </div>
+                    <div class="skill-block">
+                        <h3>Web / Scraping / Tools</h3>
+                        <ul>
+                            <li>JavaScript · AJAX · jQuery</li>
+                            <li>HTML · CSS · Bootstrap</li>
+                            <li>AMCharts</li>
+                            <li>BeautifulSoup · Selenium</li>
+                            <li>XML · JSON · EDI · Regex</li>
+                            <li>JIRA · VS Code · Jupyter</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="certs-row">
+                    <p class="section-label" style="margin-bottom:24px;">Certifications</p>
+                    <div class="certs-list">
+                        <a href="https://udemy-certifcate.s3.amazonaws.com/pdf/UC-a2b3e294-4507-48d7-95a5-915e4319dd18.pdf" target="_blank" class="cert-item">
+                            <span class="cert-icon">🏅</span>
+                            <span>The Data Science Course - 365 Careers · Udemy</span>
+                            <span class="cert-id">UC-a2b3e294</span>
+                            <span class="cert-arrow">↗</span>
+                        </a>
+                        <a href="https://udemy-certifcate.s3.amazonaws.com/pdf/UC-2b4c5b11-ab0c-4b4d-a189-5c80c9fe2614.pdf" target="_blank" class="cert-item">
+                            <span class="cert-icon">🏅</span>
+                            <span>Python for Data Science & Machine Learning - Udemy</span>
+                            <span class="cert-id">UC-2b4c5b11</span>
+                            <span class="cert-arrow">↗</span>
+                        </a>
+                        <a href="https://udemy-certifcate.s3.amazonaws.com/pdf/UC-d2f4d403-9fd2-4cf6-9c9d-0f963224e0b8.pdf" target="_blank" class="cert-item">
+                            <span class="cert-icon">🏅</span>
+                            <span>The Complete SQL Bootcamp 2020 - Udemy</span>
+                            <span class="cert-id">UC-d2f4d403</span>
+                            <span class="cert-arrow">↗</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section class="gallery" id="media">
+            <div class="section-wrap">
+                <p class="section-label">Personal</p>
+                <h2 class="section-title">Beyond the code.</h2>
+                <div class="tile-grid">
+                    <div class="tile"><img src="hoto.jpg" alt="Dhananjayan R"></div>
+                    <div class="tile tile-placeholder" style="background:#f0f0f5;"><span>Family Time</span></div>
+                    <div class="tile tile-placeholder" style="background:#e8e8ed;"><span>Hiking</span></div>
+                    <div class="tile tile-placeholder hidden" style="background:#f5f5f7;"><span>Beach Day</span></div>
+                    <div class="tile tile-placeholder hidden" style="background:#ebebf0;"><span>Travel</span></div>
+                    <div class="tile tile-placeholder hidden" style="background:#f0f0f5;"><span>Food</span></div>
+                </div>
+                <button class="see-more-btn" onclick="toggleGallery(this)">See More</button>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="contact" id="contact">
+            <div class="section-wrap contact-inner">
+                <p class="section-label">Contact</p>
+                <h2 class="section-title">Let's build<br>something great.</h2>
+                <p class="contact-sub">Open to senior backend roles, performance engineering positions, and interesting consulting work. Based in Chennai, open to Bangalore / hybrid / remote.</p>
+
+                <div class="contact-links">
+                    <a href="mailto:dhananjayan.on@gmail.com" class="contact-link">
+                        <span class="contact-link-label">Email</span>
+                        <span class="contact-link-value">dhananjayan.on@gmail.com ↗</span>
+                    </a>
+                    <a href="tel:+916379087148" class="contact-link">
+                        <span class="contact-link-label">Phone</span>
+                        <span class="contact-link-value">+91 6379087148 ↗</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/dhananjayan-r-1b91b1148/" target="_blank" class="contact-link">
+                        <span class="contact-link-label">LinkedIn</span>
+                        <span class="contact-link-value">dhananjayan-r-1b91b1148 ↗</span>
+                    </a>
+                    <a href="https://github.com/dhananjayan-r" target="_blank" class="contact-link">
+                        <span class="contact-link-label">GitHub</span>
+                        <span class="contact-link-value">github.com/dhananjayan-r ↗</span>
+                    </a>
+                    <div class="contact-link no-hover">
+                        <span class="contact-link-label">Location</span>
+                        <span class="contact-link-value">Chennai, India</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 Dhananjayan R · Built with intention.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
