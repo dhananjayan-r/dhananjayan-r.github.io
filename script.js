@@ -257,3 +257,92 @@ function toggleGallery(btn) {
     }
     btn.textContent = isExpanded ? 'See More' : 'See Less';
 }
+
+
+// ── CAREER TRACK (hoverable 2D timeline) ──
+(function buildCareerTrack() {
+    const segmentsEl = document.getElementById('trackSegments');
+    const markersEl  = document.getElementById('trackMarkers');
+    const tooltipEl  = document.getElementById('trackTooltip');
+    if (!segmentsEl || !markersEl || !tooltipEl) return;
+
+    const ttCompany = document.getElementById('ttCompany');
+    const ttRole    = document.getElementById('ttRole');
+    const ttPeriod  = document.getElementById('ttPeriod');
+
+    const events = [
+        { type: 'job', company: 'Sutherland Global Services', role: 'Associate - CS Internet',
+          start: new Date(2019, 8, 16), end: new Date(2020, 0, 4) },
+        { type: 'gap', company: 'Career Gap', role: 'Job search / transition into software',
+          start: new Date(2020, 0, 4), end: new Date(2021, 0, 1) },
+        { type: 'job', company: 'Genome International', role: 'Intern → Junior Software Programmer',
+          start: new Date(2021, 0, 1), end: new Date(2023, 0, 31) },
+        { type: 'job', company: 'TNQ Technologies', role: 'Software Engineer',
+          start: new Date(2023, 1, 1), end: new Date(2025, 1, 21) },
+        { type: 'job', company: 'EdgeVerve · Infosys', role: 'Member of Technical Staff - Product Engineering',
+          start: new Date(2025, 2, 26), end: new Date(2026, 8, 21) },
+        { type: 'job', company: 'Droidal', role: 'Staff Engineer',
+          start: new Date(2026, 8, 23), end: null, current: true },
+    ];
+
+    const now = new Date();
+    const overallStart = events[0].start;
+    const overallEnd = now;
+    const totalMs = overallEnd - overallStart;
+
+    const pct = (date) => {
+        if (totalMs <= 0) return 0;
+        return Math.min(100, Math.max(0, ((date - overallStart) / totalMs) * 100));
+    };
+
+    const fmtDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const fmtPeriod = (ev) => `${fmtDate(ev.start)} – ${ev.end ? fmtDate(ev.end) : 'Present'}`;
+
+    const defaultTip = {
+        company: ttCompany ? ttCompany.textContent : '',
+        role: ttRole ? ttRole.textContent : '',
+        period: ttPeriod ? ttPeriod.textContent : '',
+    };
+
+    function showTip(ev) {
+        if (!ttCompany || !ttRole || !ttPeriod) return;
+        ttCompany.textContent = ev.company;
+        ttRole.textContent = ev.role;
+        ttPeriod.textContent = fmtPeriod(ev);
+    }
+
+    function resetTip() {
+        if (!ttCompany || !ttRole || !ttPeriod) return;
+        ttCompany.textContent = defaultTip.company;
+        ttRole.textContent = defaultTip.role;
+        ttPeriod.textContent = defaultTip.period;
+    }
+
+    events.forEach((ev) => {
+        const startPct = pct(ev.start);
+        const endPct = pct(ev.end || now);
+        const width = Math.max(0, endPct - startPct);
+
+        if (width > 0) {
+            const seg = document.createElement('div');
+            seg.className = `track-segment ${ev.type}`;
+            seg.style.left = `${startPct}%`;
+            seg.style.width = `${width}%`;
+            segmentsEl.appendChild(seg);
+        }
+
+        const marker = document.createElement('button');
+        marker.type = 'button';
+        marker.className = 'track-marker' + (ev.type === 'gap' ? ' gap-marker' : '') + (ev.current ? ' current' : '');
+        marker.style.left = `${startPct}%`;
+        marker.setAttribute('aria-label', `${ev.company} – ${fmtPeriod(ev)}`);
+
+        marker.addEventListener('mouseenter', () => showTip(ev));
+        marker.addEventListener('focus', () => showTip(ev));
+        marker.addEventListener('click', () => showTip(ev));
+        marker.addEventListener('mouseleave', resetTip);
+        marker.addEventListener('blur', resetTip);
+
+        markersEl.appendChild(marker);
+    });
+})();
