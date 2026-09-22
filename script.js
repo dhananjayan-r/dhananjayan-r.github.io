@@ -238,27 +238,6 @@ function fmtYMD({ years, months, days }) {
 
 
 
-// ── GALLERY TOGGLE ──
-function toggleGallery(btn) {
-    const isExpanded = btn.textContent === 'See Less';
-    document.querySelectorAll('.tile.hidden, .tile').forEach(t => {
-        if (isExpanded) {
-            if (!t.classList.contains('hidden')) return;
-            t.style.display = 'none';
-        } else {
-            t.style.display = '';
-            t.classList.remove('hidden');
-        }
-    });
-    if (isExpanded) {
-        document.querySelectorAll('.tile').forEach((t, i) => {
-            if (i >= 3) { t.style.display = 'none'; t.classList.add('hidden'); }
-        });
-    }
-    btn.textContent = isExpanded ? 'See More' : 'See Less';
-}
-
-
 // ── CAREER TRACK (hoverable 2D timeline) ──
 (function buildCareerTrack() {
     const segmentsEl = document.getElementById('trackSegments');
@@ -345,4 +324,60 @@ function toggleGallery(btn) {
 
         markersEl.appendChild(marker);
     });
+
+    // ── Runner: loops across the track, label follows showing company/role/~date ──
+    const runnerEl = document.getElementById('trackRunner');
+    const labelEl  = document.getElementById('trackRunnerLabel');
+    const trlCompany = document.getElementById('trlCompany');
+    const trlMeta     = document.getElementById('trlMeta');
+
+    if (runnerEl && labelEl && trlCompany && trlMeta) {
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduceMotion && totalMs > 0) {
+            const LOOP_MS = 14000;
+            const fmtMonthYear = (d) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+            const eventAt = (date) => {
+                for (const ev of events) {
+                    const end = ev.end || now;
+                    if (date >= ev.start && date <= end) return ev;
+                }
+                return events[events.length - 1];
+            };
+
+            let lastLabelKey = '';
+
+            function frame(timestamp) {
+                const loopPct = (timestamp % LOOP_MS) / LOOP_MS * 100;
+                runnerEl.style.left = `${loopPct}%`;
+
+                const atDate = new Date(overallStart.getTime() + (loopPct / 100) * totalMs);
+                const ev = eventAt(atDate);
+                const monthYear = fmtMonthYear(atDate);
+                const key = `${ev.company}|${monthYear}`;
+
+                if (key !== lastLabelKey) {
+                    trlCompany.textContent = ev.company;
+                    trlMeta.textContent = `${ev.role} · ~${monthYear}`;
+                    lastLabelKey = key;
+                }
+
+                // Clamp label anchor so it doesn't spill past the track edges
+                let anchor = 'center';
+                if (loopPct < 12) anchor = 'left';
+                else if (loopPct > 88) anchor = 'right';
+                labelEl.style.left = `${loopPct}%`;
+                labelEl.style.transform =
+                    anchor === 'left' ? 'translateX(0)' :
+                    anchor === 'right' ? 'translateX(-100%)' :
+                    'translateX(-50%)';
+
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        } else {
+            runnerEl.style.display = 'none';
+            labelEl.style.display = 'none';
+        }
+    }
 })();
