@@ -324,6 +324,38 @@ main, nav, footer { position: relative; z-index: 1; }
 }
 .timeline-item.visible { opacity: 1; transform: translateY(0); }
 
+.timeline-gap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    padding: 22px 0;
+    border-bottom: 1px dashed var(--border);
+    opacity: 0.75;
+}
+
+.timeline-gap .timeline-period { color: var(--gray); }
+
+.gap-badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gray); background: var(--light-gray);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 3px 10px;
+    width: fit-content;
+}
+
+.timeline-gap .timeline-content h3 {
+    font-size: 15px; font-weight: 600;
+    color: var(--gray); letter-spacing: -0.01em;
+    margin-bottom: 6px;
+}
+
+.timeline-gap .timeline-content p {
+    font-size: 14px; color: var(--gray);
+    font-style: italic; line-height: 1.5;
+}
+
 .timeline-meta {
     display: flex; flex-direction: column;
     gap: 5px; padding-top: 4px;

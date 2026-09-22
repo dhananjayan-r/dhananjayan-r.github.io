@@ -192,34 +192,46 @@ function fmtYMD({ years, months, days }) {
     const now = new Date();
 
     const careerStart = new Date(2019, 8, 16);   // Sutherland - Sep 16, 2019
-    const engStart     = new Date(2021, 5, 1);    // Genome full-time - Jun 1, 2021
+    const engStart     = new Date(2021, 0, 1);    // Genome internship - Jan 1, 2021 (post career-gap, start of technical career)
 
-    const spanEl = document.getElementById('idx-total-span');
-    const engEl  = document.getElementById('idx-eng-exp');
-    const daysEl = document.getElementById('idx-total-days');
-    if (!spanEl && !engEl && !daysEl) return;
+    const spanEl  = document.getElementById('idx-total-span');
+    const engEl   = document.getElementById('idx-eng-exp');
+    const daysEl  = document.getElementById('idx-total-days');
+    const hoursEl = document.getElementById('idx-total-hours');
+    if (!spanEl && !engEl && !daysEl && !hoursEl) return;
 
     if (spanEl) spanEl.textContent = fmtYMD(diffYMD(careerStart, now));
     if (engEl)  engEl.textContent  = fmtYMD(diffYMD(engStart, now));
 
-    if (daysEl) {
-        const periods = [
-            [new Date(2019, 8, 16),  new Date(2020, 0, 4)],   // Sutherland
-            [new Date(2021, 0, 1),   new Date(2021, 5, 1)],   // Genome intern
-            [new Date(2021, 5, 1),   new Date(2023, 0, 31)],  // Genome full-time
-            [new Date(2023, 1, 1),   new Date(2025, 1, 21)],  // TNQ
-            [new Date(2025, 2, 26),  new Date(2026, 8, 21)],  // EdgeVerve
-            [new Date(2026, 8, 23),  null],                   // Droidal (ongoing)
-        ];
-        const msPerDay = 1000 * 60 * 60 * 24;
-        let totalDays = 0;
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const sumDays = (periods) => {
+        let total = 0;
         periods.forEach(([start, end]) => {
             const periodEnd = end || now;
             if (start <= now) {
-                totalDays += Math.max(0, Math.round((Math.min(periodEnd, now) - start) / msPerDay));
+                total += Math.max(0, Math.round((Math.min(periodEnd, now) - start) / msPerDay));
             }
         });
-        daysEl.textContent = `${totalDays.toLocaleString()} days`;
+        return total;
+    };
+
+    // All roles, including the pre-technical Sutherland stint
+    const allPeriods = [
+        [new Date(2019, 8, 16),  new Date(2020, 0, 4)],   // Sutherland
+        [new Date(2021, 0, 1),   new Date(2021, 5, 1)],   // Genome intern
+        [new Date(2021, 5, 1),   new Date(2023, 0, 31)],  // Genome full-time
+        [new Date(2023, 1, 1),   new Date(2025, 1, 21)],  // TNQ
+        [new Date(2025, 2, 26),  new Date(2026, 8, 21)],  // EdgeVerve
+        [new Date(2026, 8, 23),  null],                   // Droidal (ongoing)
+    ];
+    if (daysEl) daysEl.textContent = `${sumDays(allPeriods).toLocaleString()} days`;
+
+    // Technical career only - post career-gap (excludes Sutherland)
+    if (hoursEl) {
+        const techPeriods = allPeriods.slice(1); // drop Sutherland
+        const techDays = sumDays(techPeriods);
+        const techHours = techDays * 8;
+        hoursEl.textContent = `${techHours.toLocaleString()} hrs`;
     }
 })();
 
