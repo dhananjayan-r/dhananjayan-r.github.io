@@ -347,13 +347,29 @@ main, nav, footer { position: relative; z-index: 1; }
 
 .track-runner {
     position: absolute; top: 78%;
-    width: 9px; height: 9px; margin-top: -11px;
+    width: 0; height: 0;
+    z-index: 2;
+}
+
+.runner-head {
+    position: absolute; top: 0; left: 0;
+    width: 9px; height: 9px;
+    margin-top: -4.5px; margin-left: -4.5px;
     background: var(--black);
     border-radius: 50% 50% 50% 0;
     transform: rotate(45deg);
-    opacity: 0.85;
-    z-index: 2;
+    opacity: 0.9;
 }
+
+.runner-trail {
+    position: absolute; top: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+}
+.rt-1 { left: -11px; width: 5.5px; height: 5.5px; margin-top: -2.75px; opacity: 0.5; }
+.rt-2 { left: -20px; width: 4px;   height: 4px;   margin-top: -2px;    opacity: 0.28; }
+.rt-3 { left: -28px; width: 2.5px; height: 2.5px; margin-top: -1.25px; opacity: 0.13; }
 
 .track-runner-label {
     position: absolute;
