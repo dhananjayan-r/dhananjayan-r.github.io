@@ -163,6 +163,67 @@ const statsRow = document.querySelector('.stats-row');
 if (statsRow) statsObserver.observe(statsRow);
 
 
+// ── CAREER INDEX (live-calculated, calendar-accurate) ──
+function diffYMD(start, end) {
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+    if (days < 0) {
+        months--;
+        const prevMonthLastDay = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+        days += prevMonthLastDay;
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    return { years, months, days };
+}
+
+function fmtYMD({ years, months, days }) {
+    const parts = [];
+    if (years) parts.push(`${years}y`);
+    if (months || years) parts.push(`${months}m`);
+    parts.push(`${days}d`);
+    return parts.join(' ');
+}
+
+(function renderCareerIndex() {
+    const now = new Date();
+
+    const careerStart = new Date(2019, 8, 16);   // Sutherland - Sep 16, 2019
+    const engStart     = new Date(2021, 5, 1);    // Genome full-time - Jun 1, 2021
+
+    const spanEl = document.getElementById('idx-total-span');
+    const engEl  = document.getElementById('idx-eng-exp');
+    const daysEl = document.getElementById('idx-total-days');
+    if (!spanEl && !engEl && !daysEl) return;
+
+    if (spanEl) spanEl.textContent = fmtYMD(diffYMD(careerStart, now));
+    if (engEl)  engEl.textContent  = fmtYMD(diffYMD(engStart, now));
+
+    if (daysEl) {
+        const periods = [
+            [new Date(2019, 8, 16),  new Date(2020, 0, 4)],   // Sutherland
+            [new Date(2021, 0, 1),   new Date(2021, 5, 1)],   // Genome intern
+            [new Date(2021, 5, 1),   new Date(2023, 0, 31)],  // Genome full-time
+            [new Date(2023, 1, 1),   new Date(2025, 1, 21)],  // TNQ
+            [new Date(2025, 2, 26),  new Date(2026, 8, 21)],  // EdgeVerve
+            [new Date(2026, 8, 23),  null],                   // Droidal (ongoing)
+        ];
+        const msPerDay = 1000 * 60 * 60 * 24;
+        let totalDays = 0;
+        periods.forEach(([start, end]) => {
+            const periodEnd = end || now;
+            if (start <= now) {
+                totalDays += Math.max(0, Math.round((Math.min(periodEnd, now) - start) / msPerDay));
+            }
+        });
+        daysEl.textContent = `${totalDays.toLocaleString()} days`;
+    }
+})();
+
+
 
 
 // ── GALLERY TOGGLE ──
