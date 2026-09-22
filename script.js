@@ -9,8 +9,14 @@
     const REPEL_FORCE  = 3.2;
 
     function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width  = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width  = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function makeParticle() {
@@ -163,24 +169,221 @@ const statsRow = document.querySelector('.stats-row');
 if (statsRow) statsObserver.observe(statsRow);
 
 
-
-
-// ── GALLERY TOGGLE ──
-function toggleGallery(btn) {
-    const isExpanded = btn.textContent === 'See Less';
-    document.querySelectorAll('.tile.hidden, .tile').forEach(t => {
-        if (isExpanded) {
-            if (!t.classList.contains('hidden')) return;
-            t.style.display = 'none';
-        } else {
-            t.style.display = '';
-            t.classList.remove('hidden');
-        }
-    });
-    if (isExpanded) {
-        document.querySelectorAll('.tile').forEach((t, i) => {
-            if (i >= 3) { t.style.display = 'none'; t.classList.add('hidden'); }
-        });
+// ── CAREER INDEX (live-calculated, calendar-accurate) ──
+function diffYMD(start, end) {
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+    if (days < 0) {
+        months--;
+        const prevMonthLastDay = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+        days += prevMonthLastDay;
     }
-    btn.textContent = isExpanded ? 'See More' : 'See Less';
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    return { years, months, days };
 }
+
+function fmtYMD({ years, months, days }) {
+    const parts = [];
+    if (years) parts.push(`${years}y`);
+    if (months || years) parts.push(`${months}m`);
+    parts.push(`${days}d`);
+    return parts.join(' ');
+}
+
+(function renderCareerIndex() {
+    const now = new Date();
+
+    const careerStart = new Date(2019, 8, 16);   // Sutherland - Sep 16, 2019
+    const engStart     = new Date(2021, 0, 1);    // Genome internship - Jan 1, 2021 (post career-gap, start of technical career)
+
+    const spanEl  = document.getElementById('idx-total-span');
+    const engEl   = document.getElementById('idx-eng-exp');
+    const daysEl  = document.getElementById('idx-total-days');
+    const hoursEl = document.getElementById('idx-total-hours');
+    if (!spanEl && !engEl && !daysEl && !hoursEl) return;
+
+    if (spanEl) spanEl.textContent = fmtYMD(diffYMD(careerStart, now));
+    if (engEl)  engEl.textContent  = fmtYMD(diffYMD(engStart, now));
+
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const sumDays = (periods) => {
+        let total = 0;
+        periods.forEach(([start, end]) => {
+            const periodEnd = end || now;
+            if (start <= now) {
+                total += Math.max(0, Math.round((Math.min(periodEnd, now) - start) / msPerDay));
+            }
+        });
+        return total;
+    };
+
+    // All roles, including the pre-technical Sutherland stint
+    const allPeriods = [
+        [new Date(2019, 8, 16),  new Date(2020, 0, 4)],   // Sutherland
+        [new Date(2021, 0, 1),   new Date(2021, 5, 1)],   // Genome intern
+        [new Date(2021, 5, 1),   new Date(2023, 0, 31)],  // Genome full-time
+        [new Date(2023, 1, 1),   new Date(2025, 1, 21)],  // TNQ
+        [new Date(2025, 2, 26),  new Date(2026, 8, 21)],  // EdgeVerve
+        [new Date(2026, 8, 23),  null],                   // Droidal (ongoing)
+    ];
+    if (daysEl) daysEl.textContent = `${sumDays(allPeriods).toLocaleString()} days`;
+
+    // Technical career only - post career-gap (excludes Sutherland)
+    if (hoursEl) {
+        const techPeriods = allPeriods.slice(1); // drop Sutherland
+        const techDays = sumDays(techPeriods);
+        const techHours = techDays * 8;
+        hoursEl.textContent = `${techHours.toLocaleString()} hrs`;
+    }
+})();
+
+
+
+
+// ── CAREER TRACK (hoverable 2D timeline) ──
+(function buildCareerTrack() {
+    const segmentsEl = document.getElementById('trackSegments');
+    const markersEl  = document.getElementById('trackMarkers');
+    const tooltipEl  = document.getElementById('trackTooltip');
+    if (!segmentsEl || !markersEl || !tooltipEl) return;
+
+    const ttCompany = document.getElementById('ttCompany');
+    const ttRole    = document.getElementById('ttRole');
+    const ttPeriod  = document.getElementById('ttPeriod');
+
+    const events = [
+        { type: 'job', company: 'Sutherland Global Services', role: 'Associate - CS Internet',
+          start: new Date(2019, 8, 16), end: new Date(2020, 0, 4) },
+        { type: 'gap', company: 'Career Gap', role: 'Job search / transition into software',
+          start: new Date(2020, 0, 4), end: new Date(2021, 0, 1) },
+        { type: 'job', company: 'Genome International', role: 'Intern → Junior Software Programmer',
+          start: new Date(2021, 0, 1), end: new Date(2023, 0, 31) },
+        { type: 'job', company: 'TNQ Technologies', role: 'Software Engineer',
+          start: new Date(2023, 1, 1), end: new Date(2025, 1, 21) },
+        { type: 'job', company: 'EdgeVerve · Infosys', role: 'Member of Technical Staff - Product Engineering',
+          start: new Date(2025, 2, 26), end: new Date(2026, 8, 21) },
+        { type: 'job', company: 'Droidal', role: 'Staff Engineer',
+          start: new Date(2026, 8, 23), end: null, current: true },
+    ];
+
+    const now = new Date();
+    const overallStart = events[0].start;
+    const overallEnd = now;
+    const totalMs = overallEnd - overallStart;
+
+    const pct = (date) => {
+        if (totalMs <= 0) return 0;
+        return Math.min(100, Math.max(0, ((date - overallStart) / totalMs) * 100));
+    };
+
+    const fmtDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const fmtPeriod = (ev) => `${fmtDate(ev.start)} – ${ev.end ? fmtDate(ev.end) : 'Present'}`;
+
+    const defaultTip = {
+        company: ttCompany ? ttCompany.textContent : '',
+        role: ttRole ? ttRole.textContent : '',
+        period: ttPeriod ? ttPeriod.textContent : '',
+    };
+
+    function showTip(ev) {
+        if (!ttCompany || !ttRole || !ttPeriod) return;
+        ttCompany.textContent = ev.company;
+        ttRole.textContent = ev.role;
+        ttPeriod.textContent = fmtPeriod(ev);
+    }
+
+    function resetTip() {
+        if (!ttCompany || !ttRole || !ttPeriod) return;
+        ttCompany.textContent = defaultTip.company;
+        ttRole.textContent = defaultTip.role;
+        ttPeriod.textContent = defaultTip.period;
+    }
+
+    events.forEach((ev) => {
+        const startPct = pct(ev.start);
+        const endPct = pct(ev.end || now);
+        const width = Math.max(0, endPct - startPct);
+
+        if (width > 0) {
+            const seg = document.createElement('div');
+            seg.className = `track-segment ${ev.type}`;
+            seg.style.left = `${startPct}%`;
+            seg.style.width = `${width}%`;
+            segmentsEl.appendChild(seg);
+        }
+
+        const marker = document.createElement('button');
+        marker.type = 'button';
+        marker.className = 'track-marker' + (ev.type === 'gap' ? ' gap-marker' : '') + (ev.current ? ' current' : '');
+        marker.style.left = `${startPct}%`;
+        marker.setAttribute('aria-label', `${ev.company} – ${fmtPeriod(ev)}`);
+
+        marker.addEventListener('mouseenter', () => showTip(ev));
+        marker.addEventListener('focus', () => showTip(ev));
+        marker.addEventListener('click', () => showTip(ev));
+        marker.addEventListener('mouseleave', resetTip);
+        marker.addEventListener('blur', resetTip);
+
+        markersEl.appendChild(marker);
+    });
+
+    // ── Runner: loops across the track, label follows showing company/role/~date ──
+    const runnerEl = document.getElementById('trackRunner');
+    const labelEl  = document.getElementById('trackRunnerLabel');
+    const trlCompany = document.getElementById('trlCompany');
+    const trlMeta     = document.getElementById('trlMeta');
+
+    if (runnerEl && labelEl && trlCompany && trlMeta) {
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduceMotion && totalMs > 0) {
+            const LOOP_MS = 14000;
+            const fmtMonthYear = (d) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+            const eventAt = (date) => {
+                for (const ev of events) {
+                    const end = ev.end || now;
+                    if (date >= ev.start && date <= end) return ev;
+                }
+                return events[events.length - 1];
+            };
+
+            let lastLabelKey = '';
+
+            function frame(timestamp) {
+                const loopPct = (timestamp % LOOP_MS) / LOOP_MS * 100;
+                runnerEl.style.left = `${loopPct}%`;
+
+                const atDate = new Date(overallStart.getTime() + (loopPct / 100) * totalMs);
+                const ev = eventAt(atDate);
+                const monthYear = fmtMonthYear(atDate);
+                const key = `${ev.company}|${monthYear}`;
+
+                if (key !== lastLabelKey) {
+                    trlCompany.textContent = ev.company;
+                    trlMeta.textContent = `${ev.role} · ~${monthYear}`;
+                    lastLabelKey = key;
+                }
+
+                // Clamp label anchor so it doesn't spill past the track edges
+                let anchor = 'center';
+                if (loopPct < 12) anchor = 'left';
+                else if (loopPct > 88) anchor = 'right';
+                labelEl.style.left = `${loopPct}%`;
+                labelEl.style.transform =
+                    anchor === 'left' ? 'translateX(0)' :
+                    anchor === 'right' ? 'translateX(-100%)' :
+                    'translateX(-50%)';
+
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        } else {
+            runnerEl.style.display = 'none';
+            labelEl.style.display = 'none';
+        }
+    }
+})();
